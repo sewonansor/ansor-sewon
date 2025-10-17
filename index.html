@@ -414,9 +414,41 @@
             background-color: #2E8B57;
             color: white;
         }
+
+        .api-status {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1000;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .api-status.online {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .api-status.offline {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
     </style>
 </head>
 <body>
+    <!-- API Status Indicator -->
+    <div class="api-status" id="apiStatus">
+        <i class="fas fa-circle me-1"></i>
+        <span id="apiStatusText">Checking API...</span>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
@@ -938,107 +970,183 @@
         </div>
     </div>
 
-    <!-- Profile Image Update Modal -->
-    <div class="modal fade" id="profileImageModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Update Profile Picture</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center mb-4">
-                        <img id="currentProfileImg" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" 
-                             src="https://via.placeholder.com/150" alt="Profile">
-                    </div>
-                    <form id="profileImageForm">
-                        <div class="mb-3">
-                            <label for="profileImageFile" class="form-label">Select New Image</label>
-                            <input type="file" class="form-control" id="profileImageFile" accept="image/*" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" onclick="updateProfileImage()">Update Profile</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Newsletter Management Modal -->
-    <div class="modal fade" id="newsletterModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Newsletter Management</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="nav nav-tabs" id="newsletterTabs">
-                        <li class="nav-item">
-                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#sendNewsletter">Send Newsletter</button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#subscribers">Subscribers</button>
-                        </li>
-                    </ul>
-                    
-                    <div class="tab-content mt-3">
-                        <!-- Send Newsletter Tab -->
-                        <div class="tab-pane fade show active" id="sendNewsletter">
-                            <form id="sendNewsletterForm">
-                                <div class="mb-3">
-                                    <label for="newsletterSubject" class="form-label">Subject</label>
-                                    <input type="text" class="form-control" id="newsletterSubject" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="newsletterContent" class="form-label">Content</label>
-                                    <textarea class="form-control" id="newsletterContent" rows="8" required></textarea>
-                                    <div class="form-text">You can use basic HTML formatting in your newsletter.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="sendTestEmail">
-                                        <label class="form-check-label" for="sendTestEmail">
-                                            Send test email to myself first
-                                        </label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        
-                        <!-- Subscribers Tab -->
-                        <div class="tab-pane fade" id="subscribers">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6>Subscriber List</h6>
-                                <button class="btn btn-sm btn-outline-primary" onclick="exportSubscribers()">
-                                    <i class="fas fa-download me-1"></i>Export
-                                </button>
-                            </div>
-                            <div id="subscribersList" style="max-height: 300px; overflow-y: auto;">
-                                <!-- Subscribers will be loaded here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="sendNewsletterToSubscribers()">Send Newsletter</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Configuration - Replace with your deployed Web App URL
-        const API_URL = 'https://script.google.com/macros/s/AKfycby_E6nQSIdcfxwz1jGWN4yNpRQMLRyWXzeAo21c54a0Ppm8sJFLr4jRB7tWVib_bvaZhw/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyIILma21hWBzT-YH6Zv7uTMVRWoqQKBCu-9QnViUA8KgFTO_93amGGOljgfTIgqevbsQ/exec';
 
         // Session management
         let currentSession = JSON.parse(localStorage.getItem('ansorSession')) || null;
         let isOnline = navigator.onLine;
+        let apiStatus = 'checking';
+
+        // Enhanced API call function with CORS handling and multiple fallbacks
+        async function callAPI(method, data = {}) {
+            if (!isOnline) {
+                updateApiStatus('offline', 'You are offline');
+                return { success: false, message: 'You are currently offline. Please check your internet connection.' };
+            }
+            
+            data.method = method;
+            
+            // Try multiple approaches for CORS
+            const approaches = [
+                tryDirectFetch,
+                tryJSONP,
+                tryWithCorsProxy
+            ];
+            
+            for (let approach of approaches) {
+                try {
+                    const result = await approach(method, data);
+                    if (result && !result.success && result.message && result.message.includes('CORS')) {
+                        continue; // Try next approach if CORS error
+                    }
+                    updateApiStatus('online', 'API Connected');
+                    return result;
+                } catch (error) {
+                    console.log(`Approach failed: ${approach.name}`, error);
+                    continue;
+                }
+            }
+            
+            // All approaches failed
+            updateApiStatus('error', 'API Connection Failed');
+            return { 
+                success: false, 
+                message: 'All connection attempts failed. Please check your internet connection and try again.' 
+            };
+        }
+
+        // Approach 1: Direct fetch
+        async function tryDirectFetch(method, data) {
+            const url = API_URL + '?t=' + Date.now();
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                mode: 'cors'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return await response.json();
+        }
+
+        // Approach 2: JSONP fallback
+        function tryJSONP(method, data) {
+            return new Promise((resolve, reject) => {
+                const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+                const script = document.createElement('script');
+                
+                data.method = method;
+                data.callback = callbackName;
+                
+                const params = new URLSearchParams();
+                for (let key in data) {
+                    if (data[key] !== null && data[key] !== undefined) {
+                        params.append(key, data[key]);
+                    }
+                }
+                
+                script.src = API_URL + '?' + params.toString() + '&t=' + Date.now();
+                
+                window[callbackName] = function(response) {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    resolve(response);
+                };
+                
+                script.onerror = function() {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    reject(new Error('JSONP request failed'));
+                };
+                
+                // Timeout after 10 seconds
+                setTimeout(() => {
+                    if (window[callbackName]) {
+                        delete window[callbackName];
+                        document.body.removeChild(script);
+                        reject(new Error('JSONP timeout'));
+                    }
+                }, 10000);
+                
+                document.body.appendChild(script);
+            });
+        }
+
+        // Approach 3: CORS Proxy
+        async function tryWithCorsProxy(method, data) {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const url = proxyUrl + API_URL + '?t=' + Date.now();
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return await response.json();
+        }
+
+        // Update API status indicator
+        function updateApiStatus(status, message) {
+            const statusElement = document.getElementById('apiStatus');
+            const statusText = document.getElementById('apiStatusText');
+            
+            statusElement.className = 'api-status';
+            statusText.textContent = message;
+            
+            switch(status) {
+                case 'online':
+                    statusElement.classList.add('online');
+                    statusElement.innerHTML = '<i class="fas fa-check-circle me-1"></i>' + message;
+                    break;
+                case 'offline':
+                    statusElement.classList.add('offline');
+                    statusElement.innerHTML = '<i class="fas fa-times-circle me-1"></i>' + message;
+                    break;
+                case 'error':
+                    statusElement.classList.add('offline');
+                    statusElement.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>' + message;
+                    break;
+                default:
+                    statusElement.innerHTML = '<i class="fas fa-sync-alt me-1"></i>' + message;
+            }
+            
+            apiStatus = status;
+        }
+
+        // Test API connection on load
+        async function testAPIConnection() {
+            try {
+                const result = await callAPI('test');
+                if (result.success) {
+                    updateApiStatus('online', 'API Connected');
+                    return true;
+                } else {
+                    updateApiStatus('error', 'API Error: ' + (result.message || 'Unknown error'));
+                    return false;
+                }
+            } catch (error) {
+                updateApiStatus('error', 'Connection Failed');
+                return false;
+            }
+        }
 
         // Check session on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -1047,8 +1155,16 @@
             window.addEventListener('online', updateOnlineStatus);
             window.addEventListener('offline', updateOnlineStatus);
             
-            // Initialize app
-            initializeApp();
+            // Test API connection first
+            testAPIConnection().then(success => {
+                if (success) {
+                    // Initialize app if API is working
+                    initializeApp();
+                } else {
+                    // Show error message
+                    showAlert('Unable to connect to server. Some features may not work.', 'error');
+                }
+            });
             
             // Update contact form handler
             const contactForm = document.getElementById('contactForm');
@@ -1101,6 +1217,47 @@
 
             // Enhanced chatbot functionality
             setupChatbot();
+
+            // Login form handler
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    login(username, password);
+                });
+            }
+
+            // Login modal handlers
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                if (currentSession) {
+                    return; // Dropdown will handle it
+                }
+                document.getElementById('loginModal').style.display = 'flex';
+            });
+            
+            document.getElementById('closeLogin').addEventListener('click', function() {
+                document.getElementById('loginModal').style.display = 'none';
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
         });
 
         // Online/Offline status
@@ -1114,9 +1271,12 @@
             
             if (isOnline) {
                 // Retry loading data when coming back online
+                testAPIConnection();
                 checkSession();
                 loadNews();
                 loadDocuments();
+            } else {
+                updateApiStatus('offline', 'You are offline');
             }
         }
 
@@ -1152,46 +1312,6 @@
                         <p>Documents unavailable while offline</p>
                     </div>
                 `;
-            }
-        }
-
-        // Enhanced API call function with CORS handling
-        async function callAPI(method, data = {}) {
-            if (!isOnline) {
-                return { success: false, message: 'You are currently offline. Please check your internet connection.' };
-            }
-            
-            data.method = method;
-            
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                return await response.json();
-            } catch (error) {
-                console.error('API call failed:', error);
-                
-                // Check if it's a CORS error
-                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
-                    return { 
-                        success: false, 
-                        message: 'Connection error. Please ensure you are accessing the site through a web server (not file://) and check your internet connection.' 
-                    };
-                }
-                
-                return { 
-                    success: false, 
-                    message: 'Network error: ' + error.message 
-                };
             }
         }
 
@@ -1316,7 +1436,7 @@
             const result = await callAPI('getNews', { limit: 6 });
             
             if (result.success !== false) {
-                displayNews(result);
+                displayNews(result.data || result);
             } else {
                 showAlert('Failed to load news: ' + result.message, 'error');
             }
@@ -1416,7 +1536,7 @@
             const result = await callAPI('getDocuments', { limit: 20 });
             
             if (result.success !== false) {
-                displayDocuments(result);
+                displayDocuments(result.data || result);
             } else {
                 showAlert('Failed to load documents: ' + result.message, 'error');
             }
@@ -1535,8 +1655,8 @@
 
         async function loadUserProfile(username) {
             const result = await callAPI('getUserProfile', { username: username });
-            if (result && result.profileImage) {
-                document.getElementById('currentProfileImg').src = result.profileImage;
+            if (result && result.data && result.data.profileImage) {
+                document.getElementById('currentProfileImg').src = result.data.profileImage;
             }
         }
 
@@ -1633,132 +1753,6 @@
                     message.style.display = 'none';
                 }, 5000);
             }
-        }
-
-        // Newsletter management for admins
-        function showNewsletterModal() {
-            const modal = new bootstrap.Modal(document.getElementById('newsletterModal'));
-            loadSubscribers();
-            modal.show();
-        }
-
-        async function loadSubscribers() {
-            if (!currentSession || (currentSession.role !== 'admin' && currentSession.role !== 'editor')) {
-                return;
-            }
-            
-            const result = await callAPI('getSubscribers', {
-                sessionId: currentSession.sessionId,
-                limit: 1000
-            });
-            
-            if (result.success !== false) {
-                displaySubscribers(result);
-            }
-        }
-
-        function displaySubscribers(subscribers) {
-            const container = document.getElementById('subscribersList');
-            
-            if (!subscribers || subscribers.length === 0) {
-                container.innerHTML = '<p class="text-center text-muted">No subscribers yet.</p>';
-                return;
-            }
-            
-            const activeSubscribers = subscribers.filter(sub => sub.status === 'active');
-            const inactiveSubscribers = subscribers.filter(sub => sub.status !== 'active');
-            
-            let html = `
-                <div class="mb-3">
-                    <small class="text-muted">Total: ${subscribers.length} | Active: ${activeSubscribers.length}</small>
-                </div>
-            `;
-            
-            activeSubscribers.forEach((sub, index) => {
-                const date = new Date(sub.subscribeDate).toLocaleDateString();
-                html += `
-                    <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
-                        <div>
-                            <div class="fw-bold">${sub.email}</div>
-                            <small class="text-muted">${sub.name || 'No name'} • Subscribed: ${date}</small>
-                        </div>
-                        <span class="badge bg-success">Active</span>
-                    </div>
-                `;
-            });
-            
-            if (inactiveSubscribers.length > 0) {
-                html += `
-                    <div class="mt-3">
-                        <h6>Inactive Subscribers</h6>
-                `;
-                inactiveSubscribers.forEach(sub => {
-                    const date = new Date(sub.subscribeDate).toLocaleDateString();
-                    html += `
-                        <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
-                            <div>
-                                <div class="text-muted">${sub.email}</div>
-                                <small class="text-muted">Subscribed: ${date}</small>
-                            </div>
-                            <span class="badge bg-secondary">${sub.status}</span>
-                        </div>
-                    `;
-                });
-                html += `</div>`;
-            }
-            
-            container.innerHTML = html;
-        }
-
-        async function sendNewsletterToSubscribers() {
-            if (!currentSession || (currentSession.role !== 'admin' && currentSession.role !== 'editor')) {
-                showAlert('Unauthorized access', 'error');
-                return;
-            }
-            
-            const subject = document.getElementById('newsletterSubject').value;
-            const content = document.getElementById('newsletterContent').value;
-            const sendTest = document.getElementById('sendTestEmail').checked;
-            
-            if (!subject || !content) {
-                showAlert('Please fill in both subject and content', 'error');
-                return;
-            }
-            
-            if (!confirm(`Are you sure you want to send this newsletter to all active subscribers?`)) {
-                return;
-            }
-            
-            // Show loading
-            const btn = document.querySelector('#newsletterModal .btn-primary');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
-            btn.disabled = true;
-            
-            const result = await callAPI('sendNewsletter', {
-                sessionId: currentSession.sessionId,
-                subject: subject,
-                content: content
-            });
-            
-            // Reset button
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            
-            if (result.success) {
-                showAlert(result.message, 'success');
-                // Close modal and reset form
-                bootstrap.Modal.getInstance(document.getElementById('newsletterModal')).hide();
-                document.getElementById('sendNewsletterForm').reset();
-            } else {
-                showAlert(result.message, 'error');
-            }
-        }
-
-        function exportSubscribers() {
-            // This would typically generate a CSV file
-            // For now, we'll just show an alert
-            showAlert('Export functionality would generate a CSV file of all subscribers', 'info');
         }
 
         // CHATBOT FUNCTIONS
@@ -1931,44 +1925,14 @@
             showAlert('Admin panel would open here. This feature is under development.', 'info');
         }
 
-        // Update your existing login form handler
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            login(username, password);
-        });
-        
-        // Login Modal Functionality
-        document.getElementById('loginBtn').addEventListener('click', function() {
-            if (currentSession) {
-                // Already logged in, dropdown will handle it
-                return;
-            }
-            document.getElementById('loginModal').style.display = 'flex';
-        });
-        
-        document.getElementById('closeLogin').addEventListener('click', function() {
-            document.getElementById('loginModal').style.display = 'none';
-        });
-        
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
+        // Placeholder functions for modals that aren't implemented in this version
+        function showNewsletterModal() {
+            showAlert('Newsletter management would open here. This feature requires additional setup.', 'info');
+        }
+
+        function showProfileImageModal() {
+            showAlert('Profile image update would open here. This feature requires additional setup.', 'info');
+        }
     </script>
 </body>
 </html>
