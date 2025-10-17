@@ -1,0 +1,1974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansor Organisation - Building a Better Future</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #2E8B57;
+            --secondary-green: #3CB371;
+            --light-green: #90EE90;
+            --dark-green: #006400;
+            --accent-color: #FF6B6B;
+            --text-dark: #333;
+            --text-light: #f8f9fa;
+            --gray-bg: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-green) !important;
+            font-size: 1.8rem;
+        }
+        
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-green) !important;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark-green);
+            border-color: var(--dark-green);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-green);
+            border-color: var(--primary-green);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-green);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .section-title {
+            color: var(--primary-green);
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            background-color: var(--light-green);
+            bottom: -10px;
+            left: 25%;
+        }
+        
+        .feature-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            margin-bottom: 30px;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+        
+        .news-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-date {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+        
+        .footer {
+            background-color: var(--dark-green);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer h5 {
+            color: var(--light-green);
+            margin-bottom: 20px;
+        }
+        
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: #aaa;
+        }
+        
+        .chat-bot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .chat-bot:hover {
+            transform: scale(1.1);
+        }
+        
+        .chat-window {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        
+        .chat-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+        
+        .bot-message {
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 15px 15px 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .user-message {
+            background-color: var(--light-green);
+            padding: 10px 15px;
+            border-radius: 15px 15px 0 15px;
+            margin-left: auto;
+        }
+        
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .login-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        }
+        
+        .org-structure {
+            background-color: var(--gray-bg);
+            padding: 80px 0;
+        }
+        
+        .structure-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .structure-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .structure-icon {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+        }
+        
+        .document-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .document-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .toast {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-left: 4px solid var(--primary-green);
+        }
+        
+        .toast.error {
+            border-left-color: #dc3545;
+        }
+        
+        .newsletter-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .newsletter-error {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .offline-message {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            height: 20px;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: #2E8B57;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            opacity: 0.6;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .suggested-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .suggested-question {
+            background-color: #e8f5e8;
+            border: 1px solid #2E8B57;
+            border-radius: 15px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .suggested-question:hover {
+            background-color: #2E8B57;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Ansor</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#news">News</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#programs">Programs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#structure">Structure</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#documents">Documents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-outline-primary me-2" id="loginBtn">Login</button>
+                    <button class="btn btn-primary">Get Involved</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Offline Message -->
+    <div id="offlineMessage" class="offline-message" style="display: none;">
+        <i class="fas fa-wifi me-2"></i>You are currently offline. Some features may not be available.
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Building a Sustainable Future Together</h1>
+                    <p class="lead mb-4">Ansor Organisation is dedicated to creating positive change through community engagement, environmental stewardship, and innovative solutions.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-light btn-lg">Our Mission</button>
+                        <button class="btn btn-outline-light btn-lg">Join Us</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="img-fluid rounded shadow" alt="Community working together">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5" id="about">
+        <div class="container">
+            <h2 class="section-title text-center">About Ansor Organisation</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <p class="lead">Founded in 2010, Ansor Organisation has been at the forefront of community development and environmental conservation.</p>
+                    <p>Our mission is to empower communities, protect natural resources, and foster sustainable development through collaborative efforts and innovative programs.</p>
+                    <p>With over 100 active projects across 15 countries, we've impacted the lives of more than 50,000 people through our various initiatives.</p>
+                    <div class="d-flex mt-4">
+                        <div class="me-4 text-center">
+                            <h3 class="text-primary">15+</h3>
+                            <p>Years of Service</p>
+                        </div>
+                        <div class="me-4 text-center">
+                            <h3 class="text-primary">100+</h3>
+                            <p>Active Projects</p>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-primary">50K+</h3>
+                            <p>Lives Impacted</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card p-4 text-center h-100">
+                                <div class="feature-icon">
+                                    <i class="fas fa-hands-helping"></i>
+                                </div>
+                                <h4>Community Focus</h4>
+                                <p>We work directly with communities to identify needs and develop sustainable solutions.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card p-4 text-center h-100">
+                                <div class="feature-icon">
+                                    <i class="fas fa-leaf"></i>
+                                </div>
+                                <h4>Environmental Care</h4>
+                                <p>Our projects prioritize environmental conservation and sustainable resource management.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card p-4 text-center h-100">
+                                <div class="feature-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <h4>Education & Training</h4>
+                                <p>We provide educational resources and skills training to empower individuals.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="feature-card p-4 text-center h-100">
+                                <div class="feature-icon">
+                                    <i class="fas fa-handshake"></i>
+                                </div>
+                                <h4>Partnerships</h4>
+                                <p>We collaborate with local organizations, governments, and international partners.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="py-5 bg-light" id="news">
+        <div class="container">
+            <h2 class="section-title text-center">Latest News</h2>
+            <div class="row" id="newsContainer">
+                <!-- News will be loaded dynamically -->
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Loading news...</p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-primary">View All News</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="py-5" id="programs">
+        <div class="container">
+            <h2 class="section-title text-center">Our Programs</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4 text-center h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-tree"></i>
+                        </div>
+                        <h4>Environmental Conservation</h4>
+                        <p>Protecting ecosystems, promoting biodiversity, and implementing sustainable land management practices.</p>
+                        <ul class="list-unstyled text-start mt-3">
+                            <li><i class="fas fa-check text-success me-2"></i>Reforestation initiatives</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Wildlife protection</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Sustainable agriculture</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4 text-center h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h4>Education & Empowerment</h4>
+                        <p>Providing access to quality education and skills training for underserved communities.</p>
+                        <ul class="list-unstyled text-start mt-3">
+                            <li><i class="fas fa-check text-success me-2"></i>Digital literacy programs</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Vocational training</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Scholarship opportunities</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card p-4 text-center h-100">
+                        <div class="feature-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h4>Community Development</h4>
+                        <p>Building resilient communities through infrastructure, healthcare, and economic opportunities.</p>
+                        <ul class="list-unstyled text-start mt-3">
+                            <li><i class="fas fa-check text-success me-2"></i>Clean water projects</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Healthcare access</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Micro-enterprise support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Organisation Structure -->
+    <section class="org-structure" id="structure">
+        <div class="container">
+            <h2 class="section-title text-center">Organisation Structure</h2>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="structure-item">
+                        <div class="structure-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5>Board of Directors</h5>
+                        <p>Provides strategic direction and oversight for all organizational activities.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="structure-item">
+                        <div class="structure-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h5>Executive Team</h5>
+                        <p>Leads day-to-day operations and implements organizational strategy.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="structure-item">
+                        <div class="structure-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h5>Program Departments</h5>
+                        <p>Designs and implements our core programs and initiatives.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="structure-item">
+                        <div class="structure-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h5>Partnerships & Outreach</h5>
+                        <p>Builds relationships with donors, partners, and community stakeholders.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-primary">View Full Structure</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documents Section -->
+    <section class="py-5 bg-light" id="documents">
+        <div class="container">
+            <h2 class="section-title text-center">Documents & Resources</h2>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4>Organization Documents</h4>
+                        <button class="btn btn-primary" id="uploadDocBtn" style="display: none;">
+                            <i class="fas fa-upload me-2"></i>Upload Document
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row" id="documentsContainer">
+                <!-- Documents will be loaded here -->
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Loading documents...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5" id="contact">
+        <div class="container">
+            <h2 class="section-title text-center">Contact Us</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h5>Address</h5>
+                            <p>123 Green Avenue<br>Eco City, EC 12345</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <h5>Phone</h5>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h5>Email</h5>
+                            <p>info@ansor.org</p>
+                        </div>
+                    </div>
+                    <form class="mt-4" id="contactForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <input type="text" class="form-control" id="contactName" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="email" class="form-control" id="contactEmail" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="contactSubject" placeholder="Subject">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" id="contactMessage" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5>About Ansor</h5>
+                    <p>Ansor Organisation is dedicated to creating positive change through community engagement, environmental stewardship, and innovative solutions.</p>
+                    <div class="d-flex mt-4">
+                        <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#home">Home</a></li>
+                        <li class="mb-2"><a href="#about">About</a></li>
+                        <li class="mb-2"><a href="#news">News</a></li>
+                        <li class="mb-2"><a href="#programs">Programs</a></li>
+                        <li class="mb-2"><a href="#documents">Documents</a></li>
+                        <li class="mb-2"><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Programs</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#">Environmental Conservation</a></li>
+                        <li class="mb-2"><a href="#">Education & Empowerment</a></li>
+                        <li class="mb-2"><a href="#">Community Development</a></li>
+                        <li class="mb-2"><a href="#">Research & Innovation</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 mb-4">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe to our newsletter to get updates on our projects and events.</p>
+                    <form id="newsletterForm">
+                        <div class="mb-2">
+                            <input type="text" class="form-control form-control-sm" id="newsletterName" placeholder="Your Name (Optional)">
+                        </div>
+                        <div class="mb-2">
+                            <input type="email" class="form-control form-control-sm" id="newsletterEmail" placeholder="Your Email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">
+                            <span id="newsletterBtnText">Subscribe</span>
+                            <div id="newsletterSpinner" class="spinner-border spinner-border-sm ms-2" style="display: none;"></div>
+                        </button>
+                    </form>
+                    <div id="newsletterMessage" class="mt-2" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Ansor Organisation. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Bot -->
+    <div class="chat-bot" id="chatBotIcon">
+        <i class="fas fa-robot"></i>
+    </div>
+    
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h6 class="mb-0">Ansor Assistant</h6>
+            <button class="btn-close btn-close-white" id="closeChat"></button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="message">
+                <div class="bot-message">
+                    <strong>Halo! Saya Ansor Asisten 🤖</strong><br><br>
+                    Saya di sini untuk membantu Anda mengetahui informasi tentang Ansor Organisation. Anda bisa menanyakan tentang:<br><br>
+                    • 📊 Program & kegiatan kami<br>
+                    • 📰 Berita terbaru<br>
+                    • 👥 Informasi organisasi<br>
+                    • 📞 Kontak dan alamat<br>
+                    • 📈 Statistik impact<br>
+                    • 📎 Dokumen tersedia<br><br>
+                    <div class="suggested-questions">
+                        <div class="suggested-question" onclick="sendSuggestedQuestion('Apa itu Ansor Organisation?')">Tentang Ansor</div>
+                        <div class="suggested-question" onclick="sendSuggestedQuestion('Program apa saja yang ada?')">Program</div>
+                        <div class="suggested-question" onclick="sendSuggestedQuestion('Berita terbaru apa?')">Berita Terbaru</div>
+                        <div class="suggested-question" onclick="sendSuggestedQuestion('Kontak Ansor?')">Kontak</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chat-footer">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Type your message..." id="chatInput">
+                <button class="btn btn-primary" type="button" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="loginModal">
+        <div class="login-form">
+            <h3 class="text-center mb-4">Login to Ansor Portal</h3>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username or Email</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+                <div class="text-center">
+                    <a href="#" class="text-decoration-none">Forgot password?</a>
+                </div>
+            </form>
+            <button class="btn-close position-absolute top-0 end-0 m-3" id="closeLogin"></button>
+        </div>
+    </div>
+
+    <!-- Upload Document Modal -->
+    <div class="modal fade" id="uploadDocumentModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Document</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="uploadDocumentForm">
+                        <div class="mb-3">
+                            <label for="docTitle" class="form-label">Document Title</label>
+                            <input type="text" class="form-control" id="docTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="docDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="docDescription" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="docFile" class="form-label">Select File</label>
+                            <input type="file" class="form-control" id="docFile" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="uploadDocument()">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced News Editor Modal with Image Upload -->
+    <div class="modal fade" id="newsEditorModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create News Article</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newsEditorForm">
+                        <div class="mb-3">
+                            <label for="newsTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="newsTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newsContent" class="form-label">Content</label>
+                            <textarea class="form-control" id="newsContent" rows="6" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newsImage" class="form-label">Featured Image (Optional)</label>
+                            <input type="file" class="form-control" id="newsImage" accept="image/*">
+                            <div class="form-text">Recommended size: 1200x600 pixels</div>
+                        </div>
+                        <div class="mb-3" id="imagePreview" style="display: none;">
+                            <img id="previewImg" class="img-fluid rounded" style="max-height: 200px;">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="createNewsWithImage()">Publish News</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Image Update Modal -->
+    <div class="modal fade" id="profileImageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Profile Picture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <img id="currentProfileImg" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" 
+                             src="https://via.placeholder.com/150" alt="Profile">
+                    </div>
+                    <form id="profileImageForm">
+                        <div class="mb-3">
+                            <label for="profileImageFile" class="form-label">Select New Image</label>
+                            <input type="file" class="form-control" id="profileImageFile" accept="image/*" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="updateProfileImage()">Update Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Management Modal -->
+    <div class="modal fade" id="newsletterModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Newsletter Management</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="newsletterTabs">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#sendNewsletter">Send Newsletter</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#subscribers">Subscribers</button>
+                        </li>
+                    </ul>
+                    
+                    <div class="tab-content mt-3">
+                        <!-- Send Newsletter Tab -->
+                        <div class="tab-pane fade show active" id="sendNewsletter">
+                            <form id="sendNewsletterForm">
+                                <div class="mb-3">
+                                    <label for="newsletterSubject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="newsletterSubject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newsletterContent" class="form-label">Content</label>
+                                    <textarea class="form-control" id="newsletterContent" rows="8" required></textarea>
+                                    <div class="form-text">You can use basic HTML formatting in your newsletter.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="sendTestEmail">
+                                        <label class="form-check-label" for="sendTestEmail">
+                                            Send test email to myself first
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Subscribers Tab -->
+                        <div class="tab-pane fade" id="subscribers">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6>Subscriber List</h6>
+                                <button class="btn btn-sm btn-outline-primary" onclick="exportSubscribers()">
+                                    <i class="fas fa-download me-1"></i>Export
+                                </button>
+                            </div>
+                            <div id="subscribersList" style="max-height: 300px; overflow-y: auto;">
+                                <!-- Subscribers will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="sendNewsletterToSubscribers()">Send Newsletter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Configuration - Replace with your deployed Web App URL
+        const API_URL = 'https://script.google.com/macros/s/AKfycby_E6nQSIdcfxwz1jGWN4yNpRQMLRyWXzeAo21c54a0Ppm8sJFLr4jRB7tWVib_bvaZhw/exec';
+
+        // Session management
+        let currentSession = JSON.parse(localStorage.getItem('ansorSession')) || null;
+        let isOnline = navigator.onLine;
+
+        // Check session on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check online status
+            updateOnlineStatus();
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            
+            // Initialize app
+            initializeApp();
+            
+            // Update contact form handler
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('contactName').value;
+                    const email = document.getElementById('contactEmail').value;
+                    const subject = document.getElementById('contactSubject').value;
+                    const message = document.getElementById('contactMessage').value;
+                    submitContactForm(name, email, subject, message);
+                });
+            }
+
+            // Newsletter form handler
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('newsletterEmail').value;
+                    const name = document.getElementById('newsletterName').value;
+                    subscribeToNewsletter(email, name);
+                });
+            }
+
+            // Image preview for news editor
+            const newsImageInput = document.getElementById('newsImage');
+            if (newsImageInput) {
+                newsImageInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            document.getElementById('previewImg').src = e.target.result;
+                            document.getElementById('imagePreview').style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            // Add event listeners for new buttons
+            const uploadDocBtn = document.getElementById('uploadDocBtn');
+            if (uploadDocBtn) {
+                uploadDocBtn.addEventListener('click', function() {
+                    const modal = new bootstrap.Modal(document.getElementById('uploadDocumentModal'));
+                    modal.show();
+                });
+            }
+
+            // Enhanced chatbot functionality
+            setupChatbot();
+        });
+
+        // Online/Offline status
+        function updateOnlineStatus() {
+            isOnline = navigator.onLine;
+            const offlineMessage = document.getElementById('offlineMessage');
+            
+            if (offlineMessage) {
+                offlineMessage.style.display = isOnline ? 'none' : 'block';
+            }
+            
+            if (isOnline) {
+                // Retry loading data when coming back online
+                checkSession();
+                loadNews();
+                loadDocuments();
+            }
+        }
+
+        // Initialize application
+        async function initializeApp() {
+            if (!isOnline) {
+                showOfflineContent();
+                return;
+            }
+            
+            await checkSession();
+            await loadNews();
+            await loadDocuments();
+        }
+
+        function showOfflineContent() {
+            const newsContainer = document.getElementById('newsContainer');
+            const docsContainer = document.getElementById('documentsContainer');
+            
+            if (newsContainer) {
+                newsContainer.innerHTML = `
+                    <div class="col-12 text-center">
+                        <i class="fas fa-wifi fa-2x text-muted mb-3"></i>
+                        <p>News content unavailable while offline</p>
+                    </div>
+                `;
+            }
+            
+            if (docsContainer) {
+                docsContainer.innerHTML = `
+                    <div class="col-12 text-center">
+                        <i class="fas fa-wifi fa-2x text-muted mb-3"></i>
+                        <p>Documents unavailable while offline</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Enhanced API call function with CORS handling
+        async function callAPI(method, data = {}) {
+            if (!isOnline) {
+                return { success: false, message: 'You are currently offline. Please check your internet connection.' };
+            }
+            
+            data.method = method;
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                
+                // Check if it's a CORS error
+                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    return { 
+                        success: false, 
+                        message: 'Connection error. Please ensure you are accessing the site through a web server (not file://) and check your internet connection.' 
+                    };
+                }
+                
+                return { 
+                    success: false, 
+                    message: 'Network error: ' + error.message 
+                };
+            }
+        }
+
+        // Session management functions
+        async function checkSession() {
+            if (!currentSession || !currentSession.sessionId) {
+                updateUIForLoginState(false);
+                return;
+            }
+            
+            const result = await callAPI('validateSession', {
+                sessionId: currentSession.sessionId
+            });
+            
+            if (result.success && result.valid) {
+                currentSession.username = result.username;
+                currentSession.role = result.role;
+                localStorage.setItem('ansorSession', JSON.stringify(currentSession));
+                updateUIForLoginState(true, result.role, result.username);
+            } else {
+                logout();
+            }
+        }
+
+        function updateUIForLoginState(isLoggedIn, role = null, username = null) {
+            const loginBtn = document.getElementById('loginBtn');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (isLoggedIn) {
+                loginBtn.textContent = username;
+                loginBtn.innerHTML = `<i class="fas fa-user me-2"></i>${username}`;
+                loginBtn.classList.add('dropdown-toggle');
+                loginBtn.setAttribute('data-bs-toggle', 'dropdown');
+                
+                if (!userMenu) {
+                    createUserMenu(loginBtn, role, username);
+                }
+            } else {
+                loginBtn.textContent = 'Login';
+                loginBtn.innerHTML = 'Login';
+                loginBtn.classList.remove('dropdown-toggle');
+                loginBtn.removeAttribute('data-bs-toggle');
+                if (userMenu) {
+                    userMenu.remove();
+                }
+            }
+            
+            // Show/hide admin features based on role
+            toggleAdminFeatures(role);
+        }
+
+        function createUserMenu(loginBtn, role, username) {
+            const dropdown = document.createElement('div');
+            dropdown.className = 'dropdown-menu dropdown-menu-end';
+            dropdown.id = 'userMenu';
+            
+            let menuItems = `
+                <h6 class="dropdown-header">Logged in as ${username}</h6>
+                <div class="dropdown-divider"></div>
+            `;
+            
+            if (role === 'admin' || role === 'editor') {
+                menuItems += `
+                    <a class="dropdown-item" href="#" onclick="showNewsEditor()"><i class="fas fa-edit me-2"></i>Post News</a>
+                    <a class="dropdown-item" href="#" onclick="showNewsletterModal()"><i class="fas fa-newspaper me-2"></i>Newsletter</a>
+                `;
+            }
+            
+            if (role === 'admin') {
+                menuItems += `<a class="dropdown-item" href="#" onclick="showAdminPanel()"><i class="fas fa-cog me-2"></i>Admin Panel</a>`;
+            }
+            
+            menuItems += `
+                <a class="dropdown-item" href="#" onclick="showProfileImageModal()"><i class="fas fa-user-edit me-2"></i>Update Profile</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
+            `;
+            
+            dropdown.innerHTML = menuItems;
+            loginBtn.parentNode.appendChild(dropdown);
+        }
+
+        function toggleAdminFeatures(role) {
+            const uploadDocBtn = document.getElementById('uploadDocBtn');
+            if (uploadDocBtn) {
+                uploadDocBtn.style.display = (role === 'admin' || role === 'editor') ? 'block' : 'none';
+            }
+        }
+
+        // Login/Logout functions
+        async function login(username, password) {
+            const result = await callAPI('login', { username, password });
+            
+            if (result.success) {
+                currentSession = {
+                    sessionId: result.sessionId,
+                    username: result.username,
+                    role: result.role
+                };
+                localStorage.setItem('ansorSession', JSON.stringify(currentSession));
+                updateUIForLoginState(true, result.role, result.username);
+                hideLoginModal();
+                showAlert('Login successful!', 'success');
+            } else {
+                showAlert(result.message, 'error');
+            }
+        }
+
+        async function logout() {
+            if (currentSession && currentSession.sessionId) {
+                await callAPI('logout', { sessionId: currentSession.sessionId });
+            }
+            
+            currentSession = null;
+            localStorage.removeItem('ansorSession');
+            updateUIForLoginState(false);
+            showAlert('Logged out successfully!', 'success');
+        }
+
+        // News functions
+        async function loadNews() {
+            const result = await callAPI('getNews', { limit: 6 });
+            
+            if (result.success !== false) {
+                displayNews(result);
+            } else {
+                showAlert('Failed to load news: ' + result.message, 'error');
+            }
+        }
+
+        function displayNews(news) {
+            const newsContainer = document.getElementById('newsContainer');
+            if (!newsContainer) return;
+            
+            if (!news || news.length === 0) {
+                newsContainer.innerHTML = '<p class="text-center">No news available yet.</p>';
+                return;
+            }
+            
+            let html = '';
+            news.forEach(item => {
+                const date = new Date(item.date).toLocaleDateString();
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="news-card">
+                            <div class="position-relative">
+                                <img src="${item.imageUrl}" class="card-img-top" alt="${item.title}" style="height: 200px; object-fit: cover;">
+                                <div class="news-date">${date}</div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${item.title}</h5>
+                                <p class="card-text">${item.content.substring(0, 100)}...</p>
+                                <small class="text-muted">By ${item.author}</small>
+                                ${currentSession && (currentSession.role === 'admin' || currentSession.role === 'editor') ? 
+                                  `<button class="btn btn-sm btn-outline-danger mt-2" onclick="deleteNews('${item.id}')">Delete</button>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            newsContainer.innerHTML = html;
+        }
+
+        async function createNewsWithImage() {
+            if (!currentSession) {
+                showAlert('Please login first', 'error');
+                return;
+            }
+            
+            const title = document.getElementById('newsTitle').value;
+            const content = document.getElementById('newsContent').value;
+            const fileInput = document.getElementById('newsImage');
+            const file = fileInput.files[0];
+
+            let imageData = null;
+            if (file) {
+                const base64Data = await fileToBase64(file);
+                imageData = {
+                    fileName: file.name,
+                    data: base64Data,
+                    mimeType: file.type
+                };
+            }
+
+            const result = await callAPI('createNews', {
+                title: title,
+                content: content,
+                sessionId: currentSession.sessionId,
+                imageData: imageData
+            });
+
+            if (result.success) {
+                showAlert('News posted successfully!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('newsEditorModal')).hide();
+                document.getElementById('newsEditorForm').reset();
+                document.getElementById('imagePreview').style.display = 'none';
+                loadNews();
+            } else {
+                showAlert(result.message, 'error');
+            }
+        }
+
+        async function deleteNews(newsId) {
+            if (!confirm('Are you sure you want to delete this news article?')) return;
+            
+            const result = await callAPI('deleteNews', {
+                newsId,
+                sessionId: currentSession.sessionId
+            });
+            
+            if (result.success) {
+                showAlert('News deleted successfully!', 'success');
+                loadNews();
+            } else {
+                showAlert(result.message, 'error');
+            }
+        }
+
+        // Document management
+        async function loadDocuments() {
+            const result = await callAPI('getDocuments', { limit: 20 });
+            
+            if (result.success !== false) {
+                displayDocuments(result);
+            } else {
+                showAlert('Failed to load documents: ' + result.message, 'error');
+            }
+        }
+
+        function displayDocuments(documents) {
+            const container = document.getElementById('documentsContainer');
+            if (!container) return;
+
+            if (!documents || documents.length === 0) {
+                container.innerHTML = '<div class="col-12"><p class="text-center">No documents available yet.</p></div>';
+                return;
+            }
+
+            let html = '';
+            documents.forEach(doc => {
+                const date = new Date(doc.uploadDate).toLocaleDateString();
+                const fileIcon = getFileIcon(doc.fileInfo ? doc.fileInfo.mimeType : '');
+                
+                html += `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="document-card card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="${fileIcon} fa-2x text-primary me-3"></i>
+                                    <h5 class="card-title mb-0">${doc.title}</h5>
+                                </div>
+                                <p class="card-text">${doc.description || 'No description'}</p>
+                                <small class="text-muted">Uploaded: ${date}</small>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <div class="d-flex justify-content-between">
+                                    <a href="${doc.fileInfo ? doc.fileInfo.url : '#'}" 
+                                       class="btn btn-sm btn-outline-primary" target="_blank">
+                                        <i class="fas fa-download me-1"></i>Download
+                                    </a>
+                                    ${currentSession && currentSession.role === 'admin' ? 
+                                        `<button class="btn btn-sm btn-outline-danger" onclick="deleteDocument('${doc.id}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        async function uploadDocument() {
+            if (!currentSession) {
+                showAlert('Please login first', 'error');
+                return;
+            }
+
+            const title = document.getElementById('docTitle').value;
+            const description = document.getElementById('docDescription').value;
+            const fileInput = document.getElementById('docFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                showAlert('Please select a file', 'error');
+                return;
+            }
+
+            // Convert file to base64
+            const base64Data = await fileToBase64(file);
+
+            const result = await callAPI('uploadDocument', {
+                title: title,
+                description: description,
+                fileData: {
+                    fileName: file.name,
+                    data: base64Data,
+                    mimeType: file.type
+                },
+                sessionId: currentSession.sessionId
+            });
+
+            if (result.success) {
+                showAlert('Document uploaded successfully!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('uploadDocumentModal')).hide();
+                document.getElementById('uploadDocumentForm').reset();
+                loadDocuments();
+            } else {
+                showAlert(result.message, 'error');
+            }
+        }
+
+        async function deleteDocument(docId) {
+            if (!confirm('Are you sure you want to delete this document?')) return;
+            
+            const result = await callAPI('deleteDocument', {
+                docId: docId,
+                sessionId: currentSession.sessionId
+            });
+            
+            if (result.success) {
+                showAlert('Document deleted successfully!', 'success');
+                loadDocuments();
+            } else {
+                showAlert(result.message, 'error');
+            }
+        }
+
+        // Profile image functions
+        function showProfileImageModal() {
+            const modal = new bootstrap.Modal(document.getElementById('profileImageModal'));
+            // Load current profile image if available
+            if (currentSession && currentSession.username) {
+                loadUserProfile(currentSession.username);
+            }
+            modal.show();
+        }
+
+        async function loadUserProfile(username) {
+            const result = await callAPI('getUserProfile', { username: username });
+            if (result && result.profileImage) {
+                document.getElementById('currentProfileImg').src = result.profileImage;
+            }
+        }
+
+        async function updateProfileImage() {
+            if (!currentSession) {
+                showAlert('Please login first', 'error');
+                return;
+            }
+
+            const fileInput = document.getElementById('profileImageFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                showAlert('Please select an image', 'error');
+                return;
+            }
+
+            const base64Data = await fileToBase64(file);
+
+            const result = await callAPI('updateProfileImage', {
+                username: currentSession.username,
+                imageData: {
+                    fileName: file.name,
+                    data: base64Data,
+                    mimeType: file.type
+                },
+                sessionId: currentSession.sessionId
+            });
+
+            if (result.success) {
+                showAlert('Profile image updated successfully!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('profileImageModal')).hide();
+                document.getElementById('profileImageForm').reset();
+                // Update UI with new image
+                if (result.imageUrl) {
+                    document.getElementById('currentProfileImg').src = result.imageUrl;
+                }
+            } else {
+                showAlert(result.message, 'error');
+            }
+        }
+
+        // Contact form function
+        async function submitContactForm(name, email, subject, message) {
+            const result = await callAPI('submitContact', {
+                name,
+                email,
+                subject,
+                message
+            });
+            
+            if (result.success) {
+                showAlert('Thank you for your message! We will get back to you soon.', 'success');
+                document.getElementById('contactForm').reset();
+            } else {
+                showAlert('There was an error sending your message. Please try again.', 'error');
+            }
+        }
+
+        // NEWSLETTER FUNCTIONS
+
+        async function subscribeToNewsletter(email, name = '') {
+            const btn = document.querySelector('#newsletterForm button');
+            const btnText = document.getElementById('newsletterBtnText');
+            const spinner = document.getElementById('newsletterSpinner');
+            const message = document.getElementById('newsletterMessage');
+            
+            // Show loading state
+            btn.disabled = true;
+            btnText.textContent = 'Subscribing...';
+            spinner.style.display = 'inline-block';
+            message.style.display = 'none';
+            
+            const result = await callAPI('subscribeNewsletter', {
+                email: email,
+                name: name
+            });
+            
+            // Reset button state
+            btn.disabled = false;
+            btnText.textContent = 'Subscribe';
+            spinner.style.display = 'none';
+            
+            // Show message
+            message.style.display = 'block';
+            message.className = 'mt-2 ' + (result.success ? 'newsletter-success' : 'newsletter-error');
+            message.innerHTML = result.message;
+            
+            // Clear form on success
+            if (result.success) {
+                document.getElementById('newsletterForm').reset();
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Newsletter management for admins
+        function showNewsletterModal() {
+            const modal = new bootstrap.Modal(document.getElementById('newsletterModal'));
+            loadSubscribers();
+            modal.show();
+        }
+
+        async function loadSubscribers() {
+            if (!currentSession || (currentSession.role !== 'admin' && currentSession.role !== 'editor')) {
+                return;
+            }
+            
+            const result = await callAPI('getSubscribers', {
+                sessionId: currentSession.sessionId,
+                limit: 1000
+            });
+            
+            if (result.success !== false) {
+                displaySubscribers(result);
+            }
+        }
+
+        function displaySubscribers(subscribers) {
+            const container = document.getElementById('subscribersList');
+            
+            if (!subscribers || subscribers.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">No subscribers yet.</p>';
+                return;
+            }
+            
+            const activeSubscribers = subscribers.filter(sub => sub.status === 'active');
+            const inactiveSubscribers = subscribers.filter(sub => sub.status !== 'active');
+            
+            let html = `
+                <div class="mb-3">
+                    <small class="text-muted">Total: ${subscribers.length} | Active: ${activeSubscribers.length}</small>
+                </div>
+            `;
+            
+            activeSubscribers.forEach((sub, index) => {
+                const date = new Date(sub.subscribeDate).toLocaleDateString();
+                html += `
+                    <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                        <div>
+                            <div class="fw-bold">${sub.email}</div>
+                            <small class="text-muted">${sub.name || 'No name'} • Subscribed: ${date}</small>
+                        </div>
+                        <span class="badge bg-success">Active</span>
+                    </div>
+                `;
+            });
+            
+            if (inactiveSubscribers.length > 0) {
+                html += `
+                    <div class="mt-3">
+                        <h6>Inactive Subscribers</h6>
+                `;
+                inactiveSubscribers.forEach(sub => {
+                    const date = new Date(sub.subscribeDate).toLocaleDateString();
+                    html += `
+                        <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                            <div>
+                                <div class="text-muted">${sub.email}</div>
+                                <small class="text-muted">Subscribed: ${date}</small>
+                            </div>
+                            <span class="badge bg-secondary">${sub.status}</span>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        async function sendNewsletterToSubscribers() {
+            if (!currentSession || (currentSession.role !== 'admin' && currentSession.role !== 'editor')) {
+                showAlert('Unauthorized access', 'error');
+                return;
+            }
+            
+            const subject = document.getElementById('newsletterSubject').value;
+            const content = document.getElementById('newsletterContent').value;
+            const sendTest = document.getElementById('sendTestEmail').checked;
+            
+            if (!subject || !content) {
+                showAlert('Please fill in both subject and content', 'error');
+                return;
+            }
+            
+            if (!confirm(`Are you sure you want to send this newsletter to all active subscribers?`)) {
+                return;
+            }
+            
+            // Show loading
+            const btn = document.querySelector('#newsletterModal .btn-primary');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+            btn.disabled = true;
+            
+            const result = await callAPI('sendNewsletter', {
+                sessionId: currentSession.sessionId,
+                subject: subject,
+                content: content
+            });
+            
+            // Reset button
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+            
+            if (result.success) {
+                showAlert(result.message, 'success');
+                // Close modal and reset form
+                bootstrap.Modal.getInstance(document.getElementById('newsletterModal')).hide();
+                document.getElementById('sendNewsletterForm').reset();
+            } else {
+                showAlert(result.message, 'error');
+            }
+        }
+
+        function exportSubscribers() {
+            // This would typically generate a CSV file
+            // For now, we'll just show an alert
+            showAlert('Export functionality would generate a CSV file of all subscribers', 'info');
+        }
+
+        // CHATBOT FUNCTIONS
+
+        function setupChatbot() {
+            // Chat Bot Functionality
+            document.getElementById('chatBotIcon').addEventListener('click', function() {
+                document.getElementById('chatWindow').style.display = 'flex';
+            });
+            
+            document.getElementById('closeChat').addEventListener('click', function() {
+                document.getElementById('chatWindow').style.display = 'none';
+            });
+            
+            document.getElementById('sendMessage').addEventListener('click', function() {
+                const input = document.getElementById('chatInput');
+                const message = input.value.trim();
+                
+                if (message) {
+                    sendChatbotMessage(message);
+                }
+            });
+            
+            // Allow sending message with Enter key
+            document.getElementById('chatInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const message = this.value.trim();
+                    if (message) {
+                        sendChatbotMessage(message);
+                    }
+                }
+            });
+        }
+
+        async function sendChatbotMessage(message) {
+            const chatBody = document.getElementById('chatBody');
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'message';
+            userMessage.innerHTML = `<div class="user-message">${message}</div>`;
+            chatBody.appendChild(userMessage);
+            
+            // Clear input
+            document.getElementById('chatInput').value = '';
+            
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'message';
+            typingIndicator.innerHTML = `
+                <div class="bot-message">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            chatBody.appendChild(typingIndicator);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            
+            try {
+                // Call chatbot API
+                const result = await callAPI('chatbot', {
+                    question: message
+                });
+                
+                // Remove typing indicator
+                typingIndicator.remove();
+                
+                // Add bot response
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message';
+                
+                if (result.success) {
+                    // Format the response with line breaks
+                    const formattedAnswer = result.answer.replace(/\n/g, '<br>');
+                    botMessage.innerHTML = `<div class="bot-message">${formattedAnswer}</div>`;
+                } else {
+                    botMessage.innerHTML = `<div class="bot-message">Maaf, saya mengalami gangguan. Silakan coba lagi nanti.</div>`;
+                }
+                
+                chatBody.appendChild(botMessage);
+                chatBody.scrollTop = chatBody.scrollHeight;
+                
+            } catch (error) {
+                // Remove typing indicator
+                typingIndicator.remove();
+                
+                // Add error message
+                const errorMessage = document.createElement('div');
+                errorMessage.className = 'message';
+                errorMessage.innerHTML = `<div class="bot-message">Maaf, terjadi kesalahan koneksi. Silakan coba lagi.</div>`;
+                chatBody.appendChild(errorMessage);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+
+        function sendSuggestedQuestion(question) {
+            document.getElementById('chatInput').value = question;
+            sendChatbotMessage(question);
+        }
+
+        // Helper functions
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        function getFileIcon(mimeType) {
+            if (mimeType.includes('pdf')) return 'fas fa-file-pdf';
+            if (mimeType.includes('word') || mimeType.includes('document')) return 'fas fa-file-word';
+            if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return 'fas fa-file-excel';
+            if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return 'fas fa-file-powerpoint';
+            if (mimeType.includes('image')) return 'fas fa-file-image';
+            if (mimeType.includes('zip') || mimeType.includes('compressed')) return 'fas fa-file-archive';
+            return 'fas fa-file';
+        }
+
+        // UI Helper functions
+        function showAlert(message, type) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toastId = 'toast-' + Date.now();
+            
+            const toastHTML = `
+                <div class="toast ${type === 'error' ? 'error' : ''}" id="${toastId}" role="alert">
+                    <div class="toast-body">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas ${type === 'error' ? 'fa-exclamation-circle text-danger' : 'fa-check-circle text-success'}"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close me-2" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement, { delay: 4000 });
+            toast.show();
+            
+            // Remove toast from DOM after it's hidden
+            toastElement.addEventListener('hidden.bs.toast', function() {
+                toastElement.remove();
+            });
+        }
+
+        function hideLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        function showNewsEditor() {
+            const modal = new bootstrap.Modal(document.getElementById('newsEditorModal'));
+            modal.show();
+        }
+
+        function showAdminPanel() {
+            showAlert('Admin panel would open here. This feature is under development.', 'info');
+        }
+
+        // Update your existing login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            login(username, password);
+        });
+        
+        // Login Modal Functionality
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            if (currentSession) {
+                // Already logged in, dropdown will handle it
+                return;
+            }
+            document.getElementById('loginModal').style.display = 'flex';
+        });
+        
+        document.getElementById('closeLogin').addEventListener('click', function() {
+            document.getElementById('loginModal').style.display = 'none';
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
